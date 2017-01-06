@@ -23,7 +23,7 @@
     ],
     "require": {
         "php": "^5.5 || ^7.0",
-        "twig/twig": "^1.27"
+        "twig/twig": "^1.27 || ^2.0"
     },
 
     "autoload": {

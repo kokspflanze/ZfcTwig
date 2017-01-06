@@ -47,14 +47,10 @@ class StackLoader extends Twig_Loader_Filesystem
     }
 
     /**
-     * @param $name
-     *
-     * @return bool|string
-     * @throws Twig_Error_Loader
+     * {@inheritDoc}
      */
-    protected function findTemplate($name)
+    protected function findTemplate($name, $throw = true)
     {
-        $throw = func_num_args() > 1 ? func_get_arg(1) : true;
         $name  = (string)$name;
 
         // normalize name
@@ -65,7 +61,7 @@ class StackLoader extends Twig_Loader_Filesystem
         }
 
         if (isset($this->errorCache[$name])) {
-            if ( ! $throw) {
+            if (!$throw) {
                 return false;
             }
             throw new Twig_Error_Loader($this->errorCache[$name]);
@@ -77,7 +73,7 @@ class StackLoader extends Twig_Loader_Filesystem
             $name .= '.' . $defaultSuffix;
         }
 
-        $this->validateName($name);
+        //$this->validateName($name);
 
         $namespace = '__main__';
         if (isset($name[0]) && '@' == $name[0]) {
@@ -87,7 +83,7 @@ class StackLoader extends Twig_Loader_Filesystem
                     $name
                 );
 
-                if ( ! $throw) {
+                if (!$throw) {
                     return false;
                 }
 
@@ -99,10 +95,10 @@ class StackLoader extends Twig_Loader_Filesystem
             $name = substr($name, $pos + 1);
         }
 
-        if ( ! isset($this->paths[$namespace])) {
+        if (!isset($this->paths[$namespace])) {
             $this->errorCache[$name] = sprintf('There are no registered paths for namespace "%s".', $namespace);
 
-            if ( ! $throw) {
+            if (!$throw) {
                 return false;
             }
             throw new Twig_Error_Loader($this->errorCache[$name]);
@@ -123,7 +119,7 @@ class StackLoader extends Twig_Loader_Filesystem
             )
         );
 
-        if ( ! $throw) {
+        if (!$throw) {
             return false;
         }
 

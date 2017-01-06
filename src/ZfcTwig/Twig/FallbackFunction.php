@@ -2,15 +2,15 @@
 
 namespace ZfcTwig\Twig;
 
-use \Twig_SimpleFunction;
+use \Twig_Function;
 use Zend\View\Helper\HelperInterface;
 
 /**
  * Class FallbackFunction
  *
- * @package ZfcTwig\Twig
- */
-class FallbackFunction extends Twig_SimpleFunction
+* @package ZfcTwig\Twig
+*/
+class FallbackFunction extends Twig_Function
 {
     /**
      * @var HelperInterface
