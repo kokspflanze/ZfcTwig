@@ -1,23 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ZfcTwig\View;
 
 use Interop\Container\ContainerInterface;
-use Twig\Environment;
-use Twig\Loader\ChainLoader;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\View\View;
+use Twig\Environment;
+use Twig\Loader\ChainLoader;
 use ZfcTwig\ModuleOptions;
 
 class TwigRendererFactory implements FactoryInterface
 {
     /**
-     * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
      * @return TwigRenderer
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         /** @var ModuleOptions $options */
         $options = $container->get(ModuleOptions::class);
@@ -35,5 +36,4 @@ class TwigRendererFactory implements FactoryInterface
 
         return $renderer;
     }
-
 }

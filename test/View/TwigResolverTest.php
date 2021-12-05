@@ -1,6 +1,8 @@
 <?php
 
-namespace ZfcTwigTest\View;
+declare(strict_types=1);
+
+namespace View;
 
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;
@@ -20,7 +22,7 @@ class TwigResolverTest extends TestCase
 
         $chain = new Loader\ChainLoader();
         $chain->addLoader(new Loader\ArrayLoader(['key1' => 'var1']));
-        $environment = new Environment($chain);
+        $environment    = new Environment($chain);
         $this->resolver = new TwigResolver($environment);
     }
 
@@ -35,5 +37,4 @@ class TwigResolverTest extends TestCase
         $this->expectExceptionMessage('Template "key2" is not defined.');
         $this->assertInstanceOf(TemplateWrapper::class, $this->resolver->resolve('key2'));
     }
-
 }

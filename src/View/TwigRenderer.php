@@ -1,68 +1,53 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ZfcTwig\View;
 
-use Twig\Environment;
-use Twig\Loader;
+use ArrayAccess;
 use Laminas\View\Exception;
+use Laminas\View\Exception\DomainException;
+use Laminas\View\Helper\AbstractHelper;
 use Laminas\View\HelperPluginManager;
 use Laminas\View\Model\ModelInterface;
 use Laminas\View\Renderer\RendererInterface;
 use Laminas\View\Renderer\TreeRendererInterface;
 use Laminas\View\Resolver\ResolverInterface;
 use Laminas\View\View;
-use function is_callable;
+use Twig\Environment;
+use Twig\Loader;
+use Twig\Template;
+
 use function call_user_func_array;
+use function is_callable;
 use function sprintf;
 
 class TwigRenderer implements RendererInterface, TreeRendererInterface
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $canRenderTrees = true;
 
-    /**
-     * @var Environment
-     */
+    /** @var Environment */
     protected $environment;
 
-    /**
-     * @var HelperPluginManager
-     */
+    /** @var HelperPluginManager */
     protected $helperPluginManager;
 
-    /**
-     * @var HelperPluginManager
-     */
+    /** @var HelperPluginManager */
     protected $zendHelperPluginManager;
 
-    /**
-     * @var Loader\ChainLoader
-     */
+    /** @var Loader\ChainLoader */
     protected $loader;
 
-    /**
-     * @var TwigResolver
-     */
+    /** @var TwigResolver */
     protected $resolver;
 
-    /**
-     * @var \Laminas\View\View
-     */
+    /** @var View */
     protected $view;
 
-    /**
-     * @var array Cache for the plugin call
-     */
-    private $__pluginCache = [];
+    /** @var array Cache for the plugin call */
+    private $pluginCache = [];
 
-    /**
-     * @param View $view
-     * @param Loader\ChainLoader $loader
-     * @param Environment $environment
-     * @param TwigResolver $resolver
-     */
     public function __construct(
         View $view,
         Loader\ChainLoader $loader,
@@ -84,23 +69,23 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
      * * If the helper does not define __invoke, it will be returned
      * * If the helper does define __invoke, it will be called as a functor
      *
-     * @param  string $method
      * @param  array $argv
      * @return mixed
      */
     public function __call(string $method, array $argv)
     {
-        if (!isset($this->__pluginCache[$method])) {
-            $this->__pluginCache[$method] = $this->plugin($method);
+        if (! isset($this->pluginCache[$method])) {
+            $this->pluginCache[$method] = $this->plugin($method);
         }
-        if (is_callable($this->__pluginCache[$method])) {
-            return call_user_func_array($this->__pluginCache[$method], $argv);
+
+        if (is_callable($this->pluginCache[$method])) {
+            return call_user_func_array($this->pluginCache[$method], $argv);
         }
-        return $this->__pluginCache[$method];
+
+        return $this->pluginCache[$method];
     }
 
     /**
-     * @param boolean $canRenderTrees
      * @return $this
      */
     public function setCanRenderTrees(bool $canRenderTrees): self
@@ -109,9 +94,6 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
         return $this;
     }
 
-    /**
-     * @return boolean
-     */
     public function canRenderTrees(): bool
     {
         return $this->canRenderTrees;
@@ -122,9 +104,9 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
      *
      * @param  string     $name Name of plugin to return
      * @param  null|array $options Options to pass to plugin constructor (if not already instantiated)
-     * @return \Laminas\View\Helper\AbstractHelper
+     * @return AbstractHelper
      */
-    public function plugin(string $name, array $options = null)
+    public function plugin(string $name, ?array $options = null)
     {
         $helper = $this->getHelperPluginManager()
                     ->setRenderer($this);
@@ -139,8 +121,6 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
     /**
      * Can the template be rendered?
      *
-     * @param string $name
-     * @return bool
      * @see \ZfcTwig\Twig\Environment::canLoadTemplate()
      */
     public function canRender(string $name): bool
@@ -154,8 +134,6 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
      * If using a third-party template engine, such as Smarty, patTemplate,
      * phplib, etc, return the template engine object. Useful for calling
      * methods on these objects, such as for setting filters, modifiers, etc.
-     *
-     * @return Environment
      */
     public function getEngine(): Environment
     {
@@ -165,7 +143,6 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
     /**
      * Set the resolver used to map a template name to a resource the renderer may consume.
      *
-     * @param  ResolverInterface $resolver
      * @return $this
      */
     public function setResolver(ResolverInterface $resolver): self
@@ -175,7 +152,6 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
     }
 
     /**
-     * @param HelperPluginManager $helperPluginManager
      * @return $this
      */
     public function setHelperPluginManager(HelperPluginManager $helperPluginManager): self
@@ -185,24 +161,17 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
         return $this;
     }
 
-    /**
-     * @return HelperPluginManager
-     */
     public function getHelperPluginManager(): HelperPluginManager
     {
         return $this->helperPluginManager;
     }
 
-    /**
-     * @return HelperPluginManager
-     */
     public function getZendHelperPluginManager(): HelperPluginManager
     {
         return $this->zendHelperPluginManager;
     }
 
     /**
-     * @param HelperPluginManager $zendHelperPluginManager
      * @return $this
      */
     public function setZendHelperPluginManager(HelperPluginManager $zendHelperPluginManager): self
@@ -215,9 +184,9 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
      * Processes a view script and returns the output.
      *
      * @param  string|ModelInterface   $nameOrModel The script/resource process, or a view model
-     * @param  null|array|\ArrayAccess $values      Values to use during rendering
+     * @param null|array|ArrayAccess $values Values to use during rendering
      * @return string|null The script output.
-     * @throws \Laminas\View\Exception\DomainException
+     * @throws DomainException
      */
     public function render($nameOrModel, $values = null): ?string
     {
@@ -229,14 +198,15 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
 
             if (empty($nameOrModel)) {
                 throw new Exception\DomainException(sprintf(
-                    '%s: received View Model argument, but template is empty', __METHOD__
+                    '%s: received View Model argument, but template is empty',
+                    __METHOD__
                 ));
             }
 
             $values = (array) $model->getVariables();
         }
 
-        if (!$this->canRender($nameOrModel)) {
+        if (! $this->canRender($nameOrModel)) {
             return null;
         }
 
@@ -266,9 +236,8 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
             }
         }
 
-        /** @var $template \Twig\Template */
+        /** @var Template $template */
         $template = $this->resolver->resolve($nameOrModel, $this);
         return $template->render((array) $values);
     }
-
 }

@@ -1,63 +1,44 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ZfcTwig;
 
 use Laminas\Stdlib\AbstractOptions;
 
 class ModuleOptions extends AbstractOptions
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $environmentLoader = '';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $environmentClass = '';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $environmentOptions = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $globals = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $loaderChain = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $extensions = [];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $suffix = '';
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $enableFallbackFunctions = true;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $disableZfmodel = true;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $helperManager = [];
 
     /**
-     * @param boolean $disableZfmodel
      * @return $this
      */
     public function setDisableZfmodel(bool $disableZfmodel): self
@@ -66,16 +47,12 @@ class ModuleOptions extends AbstractOptions
         return $this;
     }
 
-    /**
-     * @return boolean
-     */
     public function getDisableZfmodel(): bool
     {
         return $this->disableZfmodel;
     }
 
     /**
-     * @param boolean $enableFallbackFunctions
      * @return $this
      */
     public function setEnableFallbackFunctions(bool $enableFallbackFunctions): self
@@ -84,16 +61,12 @@ class ModuleOptions extends AbstractOptions
         return $this;
     }
 
-    /**
-     * @return boolean
-     */
     public function getEnableFallbackFunctions(): bool
     {
         return $this->enableFallbackFunctions;
     }
 
     /**
-     * @param string $environmentLoader
      * @return $this
      */
     public function setEnvironmentLoader(string $environmentLoader): self
@@ -102,9 +75,6 @@ class ModuleOptions extends AbstractOptions
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getEnvironmentLoader(): string
     {
         return $this->environmentLoader;
@@ -183,7 +153,6 @@ class ModuleOptions extends AbstractOptions
     }
 
     /**
-     * @param string $suffix
      * @return $this
      */
     public function setSuffix(string $suffix): self
@@ -192,25 +161,16 @@ class ModuleOptions extends AbstractOptions
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSuffix(): string
     {
         return $this->suffix;
     }
 
-    /**
-     * @param string $environmentClass
-     */
     public function setEnvironmentClass(string $environmentClass)
     {
         $this->environmentClass = $environmentClass;
     }
 
-    /**
-     * @return string
-     */
     public function getEnvironmentClass(): string
     {
         return $this->environmentClass;
@@ -231,5 +191,4 @@ class ModuleOptions extends AbstractOptions
     {
         return $this->globals;
     }
-
 }

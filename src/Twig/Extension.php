@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ZfcTwig\Twig;
 
 use Twig\Extension\AbstractExtension;
@@ -7,22 +9,14 @@ use ZfcTwig\View\TwigRenderer;
 
 class Extension extends AbstractExtension
 {
-    /**
-     * @var TwigRenderer
-     */
+    /** @var TwigRenderer */
     protected $renderer;
 
-    /**
-     * @param TwigRenderer $renderer
-     */
     public function __construct(TwigRenderer $renderer)
     {
         $this->renderer = $renderer;
     }
 
-    /**
-     * @return TwigRenderer
-     */
     public function getRenderer(): TwigRenderer
     {
         return $this->renderer;
@@ -35,7 +29,6 @@ class Extension extends AbstractExtension
      */
     public function getName(): string
     {
-        return __CLASS__;
+        return self::class;
     }
-
 }

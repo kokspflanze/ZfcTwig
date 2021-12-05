@@ -1,13 +1,16 @@
 <?php
 
-namespace ZfcTwigTest\View;
+declare(strict_types=1);
 
-use Twig\Environment;
-use Twig\Loader;
+namespace View;
+
 use Laminas\View\Model\ModelInterface;
 use Laminas\View\View;
-use ZfcTwig\View\TwigRenderer;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Twig\Environment;
+use Twig\Loader;
+use ZfcTwig\View\TwigRenderer;
 use ZfcTwig\View\TwigResolver;
 
 class TwigRendererTest extends TestCase
@@ -21,8 +24,8 @@ class TwigRendererTest extends TestCase
 
         $chain = new Loader\ChainLoader();
         $chain->addLoader(new Loader\ArrayLoader(['key1' => 'var1 {{ foobar }}']));
-        $environment = new Environment($chain);
-        $this->renderer = new TwigRenderer(new View, $chain, $environment, new TwigResolver($environment));
+        $environment    = new Environment($chain);
+        $this->renderer = new TwigRenderer(new View(), $chain, $environment, new TwigResolver($environment));
     }
 
     public function testRenderWithName()
@@ -43,7 +46,7 @@ class TwigRendererTest extends TestCase
 
     public function testRenderWithModelAndValues()
     {
-        /** @var \PHPUnit\Framework\MockObject\MockObject|ModelInterface $model */
+        /** @var MockObject|ModelInterface $model */
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->exactly(1))
             ->method('getTemplate')
@@ -57,5 +60,4 @@ class TwigRendererTest extends TestCase
         $this->assertIsString($content);
         $this->assertSame('var1 baz', $content);
     }
-
 }

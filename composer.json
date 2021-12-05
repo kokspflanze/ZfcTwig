@@ -27,7 +27,7 @@
     ],
     "require": {
         "php": "^7.3 || ~8.0.0 || ~8.1.0",
-        "twig/twig": "^3.0.1",
+        "twig/twig": "^3.3.4",
         "laminas/laminas-mvc": "^3.0",
         "laminas/laminas-view": "^2.7",
         "laminas/laminas-servicemanager": "^3.0",
@@ -40,7 +40,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ZfcTwigTest\\": "tests/ZfcTwigTest"
+            "ZfcTwigTest\\": "test/"
         }
     },
     "require-dev": {
@@ -68,6 +68,6 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "test": "phpunit --colors=always --configuration tests/phpunit.xml"
+        "test": "phpunit --colors=always --configuration phpunit.xml.dist"
     }
 }

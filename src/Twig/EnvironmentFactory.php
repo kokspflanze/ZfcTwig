@@ -1,30 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ZfcTwig\Twig;
 
 use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use RuntimeException;
 use Twig\Environment;
 use Twig\TwigFunction;
-use Laminas\ServiceManager\Factory\FactoryInterface;
 use ZfcTwig\ModuleOptions;
+
 use function sprintf;
 
 class EnvironmentFactory implements FactoryInterface
 {
     /**
-     * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
      * @return Environment
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         /** @var ModuleOptions $options */
         $options  = $container->get(ModuleOptions::class);
         $envClass = $options->getEnvironmentClass();
 
-        if (!$container->has($options->getEnvironmentLoader())) {
+        if (! $container->has($options->getEnvironmentLoader())) {
             throw new RuntimeException(
                 sprintf(
                     'Loader with alias "%s" could not be found!',
@@ -63,5 +65,4 @@ class EnvironmentFactory implements FactoryInterface
         // Extensions are loaded later to avoid circular dependencies (for example, if an extension needs Renderer).
         return $env;
     }
-
 }

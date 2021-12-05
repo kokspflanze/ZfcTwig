@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ZfcTwig\View;
 
 use Laminas\EventManager\EventManagerInterface;
@@ -8,19 +10,12 @@ use Laminas\View\ViewEvent;
 
 class TwigStrategy implements ListenerAggregateInterface
 {
-    /**
-     * @var callable[]
-     */
+    /** @var callable[] */
     protected $listeners = [];
 
-    /**
-     * @var TwigRenderer
-     */
+    /** @var TwigRenderer */
     protected $renderer;
 
-    /**
-     * @param TwigRenderer $renderer
-     */
     public function __construct(TwigRenderer $renderer)
     {
         $this->renderer = $renderer;
@@ -32,7 +27,6 @@ class TwigStrategy implements ListenerAggregateInterface
      * Implementors may add an optional $priority argument; the EventManager
      * implementation will pass this to the aggregate.
      *
-     * @param EventManagerInterface $events
      * @param int $priority
      */
     public function attach(EventManagerInterface $events, $priority = 100)
@@ -43,8 +37,6 @@ class TwigStrategy implements ListenerAggregateInterface
 
     /**
      * Detach all previously attached listeners
-     *
-     * @param EventManagerInterface $events
      */
     public function detach(EventManagerInterface $events)
     {
@@ -57,7 +49,6 @@ class TwigStrategy implements ListenerAggregateInterface
     /**
      * Determine if the renderer can load the requested template.
      *
-     * @param ViewEvent $e
      * @return bool|TwigRenderer
      */
     public function selectRenderer(ViewEvent $e)
@@ -70,8 +61,6 @@ class TwigStrategy implements ListenerAggregateInterface
 
     /**
      * Inject the response from the renderer.
-     *
-     * @param \Laminas\View\ViewEvent $e
      */
     public function injectResponse(ViewEvent $e)
     {
@@ -84,5 +73,4 @@ class TwigStrategy implements ListenerAggregateInterface
 
         $response->setContent($result);
     }
-
 }

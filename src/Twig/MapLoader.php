@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ZfcTwig\Twig;
 
 use Twig\Error;
 use Twig\Loader;
 use Twig\Source;
+
 use function array_key_exists;
 use function file_exists;
 use function file_get_contents;
@@ -15,6 +18,7 @@ class MapLoader implements Loader\LoaderInterface
 {
     /**
      * Array of templates to filenames.
+     *
      * @var array
      */
     protected $map = [];
@@ -22,10 +26,7 @@ class MapLoader implements Loader\LoaderInterface
     /**
      * Add to the map.
      *
-     * @param string $name
-     * @param string $path
      * @throws Error\LoaderError
-     * @return MapLoader
      */
     public function add(string $name, string $path): MapLoader
     {
@@ -52,13 +53,13 @@ class MapLoader implements Loader\LoaderInterface
      */
     public function getSourceContext(string $name): Source
     {
-        if (!$this->exists($name)) {
+        if (! $this->exists($name)) {
             throw new Error\LoaderError(sprintf(
                 'Unable to find template "%s" from template map',
                 $name
             ));
         }
-        if (!file_exists($this->map[$name])) {
+        if (! file_exists($this->map[$name])) {
             throw new Error\LoaderError(sprintf(
                 'Unable to open file "%s" from template map',
                 $this->map[$name]
@@ -82,5 +83,4 @@ class MapLoader implements Loader\LoaderInterface
     {
         return filemtime($this->map[$name]) <= $time;
     }
-
 }

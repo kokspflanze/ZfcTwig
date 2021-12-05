@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ZfcTwig\View;
 
 use Interop\Container\ContainerInterface;
@@ -7,19 +9,19 @@ use Laminas\ServiceManager\ConfigInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\View\Exception;
 use ZfcTwig\ModuleOptions;
-use function is_string;
+
 use function class_exists;
+use function is_string;
 use function sprintf;
 
 class HelperPluginManagerFactory implements FactoryInterface
 {
     /**
-     * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
      * @return HelperPluginManager
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         /** @var ModuleOptions $options */
         $options        = $container->get(ModuleOptions::class);
@@ -27,15 +29,14 @@ class HelperPluginManagerFactory implements FactoryInterface
         $managerConfigs = $managerOptions['configs'] ?? [];
 
         /** @var HelperPluginManager $viewHelper */
-        //$viewHelper = $container->get('ViewHelperManager');
         $viewHelper = new HelperPluginManager($container, $managerOptions);
 
         foreach ($managerConfigs as $configClass) {
             if (is_string($configClass) && class_exists($configClass)) {
                 /** @var ConfigInterface $config */
-                $config = new $configClass;
+                $config = new $configClass();
 
-                if (!$config instanceof ConfigInterface) {
+                if (! $config instanceof ConfigInterface) {
                     throw new Exception\RuntimeException(
                         sprintf(
                             'Invalid service manager configuration class provided; received "%s",
@@ -52,5 +53,4 @@ class HelperPluginManagerFactory implements FactoryInterface
 
         return $viewHelper;
     }
-
 }
