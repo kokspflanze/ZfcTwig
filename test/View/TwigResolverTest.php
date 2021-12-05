@@ -1,6 +1,6 @@
 <?php
 
-namespace ZfcTwigTest\View;
+namespace View;
 
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;

@@ -1,13 +1,13 @@
 <?php
 
-namespace ZfcTwigTest\View;
+namespace View;
 
-use Twig\Environment;
-use Twig\Loader;
 use Laminas\View\Model\ModelInterface;
 use Laminas\View\View;
-use ZfcTwig\View\TwigRenderer;
 use PHPUnit\Framework\TestCase;
+use Twig\Environment;
+use Twig\Loader;
+use ZfcTwig\View\TwigRenderer;
 use ZfcTwig\View\TwigResolver;
 
 class TwigRendererTest extends TestCase

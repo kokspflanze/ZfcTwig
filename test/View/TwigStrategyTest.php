@@ -1,15 +1,15 @@
 <?php
-namespace ZfcTwigTest\View;
+namespace View;
 
-use PHPUnit\Framework\TestCase;
-use Twig\Environment;
-use Twig\Loader;
 use Laminas\View\Model\ModelInterface;
 use Laminas\View\View;
 use Laminas\View\ViewEvent;
+use PHPUnit\Framework\TestCase;
+use Twig\Environment;
+use Twig\Loader;
 use ZfcTwig\View\TwigRenderer;
-use ZfcTwig\View\TwigStrategy;
 use ZfcTwig\View\TwigResolver;
+use ZfcTwig\View\TwigStrategy;
 
 class TwigStrategyTest extends TestCase
 {

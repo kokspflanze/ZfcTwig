@@ -40,7 +40,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ZfcTwigTest\\": "tests/ZfcTwigTest"
+            "ZfcTwigTest\\": "test/"
         }
     },
     "require-dev": {
@@ -68,6 +68,6 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "test": "phpunit --colors=always --configuration tests/phpunit.xml"
+        "test": "phpunit --colors=always --configuration phpunit.xml.dist"
     }
 }
