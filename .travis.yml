@@ -19,16 +19,10 @@ matrix:
         - DEPS=lowest
     - php: 7.3
       env:
-        - DEPS=locked
-    - php: 7.3
-      env:
         - DEPS=latest
     - php: 7.4
       env:
         - DEPS=lowest
-    - php: 7.4
-      env:
-        - DEPS=locked
     - php: 7.4
       env:
         - DEPS=latest
@@ -37,10 +31,15 @@ matrix:
         - DEPS=lowest
     - php: 8.0
       env:
-        - DEPS=locked
-    - php: 8.0
+        - DEPS=latest
+    - php: 8.1
+      env:
+        - DEPS=lowest
+        - COMPOSER_ARGS="--no-interaction --ignore-platform-reqs"
+    - php: 8.1
       env:
         - DEPS=latest
+        - COMPOSER_ARGS="--no-interaction --ignore-platform-reqs"
 
 before_install:
   - travis_retry composer self-update
