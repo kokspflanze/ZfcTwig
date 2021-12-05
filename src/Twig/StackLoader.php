@@ -1,25 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ZfcTwig\Twig;
 
 use Twig\Error;
 use Twig\Loader;
-use function ltrim;
-use function preg_replace;
-use function strtr;
-use function pathinfo;
-use function strpos;
-use function sprintf;
-use function substr;
-use function is_file;
-use function implode;
-use function explode;
 
-/**
- * Class StackLoader
- *
- * @package ZfcTwig\Twig
- */
+use function explode;
+use function implode;
+use function is_file;
+use function ltrim;
+use function pathinfo;
+use function preg_replace;
+use function sprintf;
+use function strpos;
+use function strtr;
+use function substr;
+
+use const PATHINFO_EXTENSION;
+
 class StackLoader extends Loader\FilesystemLoader
 {
     /**
@@ -34,13 +34,11 @@ class StackLoader extends Loader\FilesystemLoader
     /**
      * Set default file suffix
      *
-     * @param  string $defaultSuffix
-     *
      * @return StackLoader
      */
     public function setDefaultSuffix(string $defaultSuffix)
     {
-        $this->defaultSuffix = (string)$defaultSuffix;
+        $this->defaultSuffix = (string) $defaultSuffix;
         $this->defaultSuffix = ltrim($this->defaultSuffix, '.');
 
         return $this;
@@ -48,8 +46,6 @@ class StackLoader extends Loader\FilesystemLoader
 
     /**
      * Get default file suffix
-     *
-     * @return string
      */
     public function getDefaultSuffix(): string
     {
@@ -58,18 +54,19 @@ class StackLoader extends Loader\FilesystemLoader
 
     /**
      * {@inheritDoc}
+     *
      * @throws Error\LoaderError
      */
     protected function findTemplate(string $name, bool $throw = true): ?string
     {
-        $name  = (string)$name;
+        $name = (string) $name;
 
         // normalize name
         $name = preg_replace('#/{2,}#', '/', strtr($name, '\\', '/'));
 
         // Ensure we have the expected file extension
         $defaultSuffix = $this->getDefaultSuffix();
-        if (pathinfo($name, PATHINFO_EXTENSION) != $defaultSuffix) {
+        if (pathinfo($name, PATHINFO_EXTENSION) !== $defaultSuffix) {
             $name .= '.' . $defaultSuffix;
         }
 
@@ -78,7 +75,7 @@ class StackLoader extends Loader\FilesystemLoader
         }
 
         if (isset($this->errorCache[$name])) {
-            if (!$throw) {
+            if (! $throw) {
                 return $this->cache[$name] = null;
             }
             throw new Error\LoaderError($this->errorCache[$name]);
@@ -87,14 +84,14 @@ class StackLoader extends Loader\FilesystemLoader
         $this->validateName($name);
 
         $namespace = '__main__';
-        if (isset($name[0]) && '@' == $name[0]) {
+        if (isset($name[0]) && '@' === $name[0]) {
             if (false === $pos = strpos($name, '/')) {
                 $this->errorCache[$name] = sprintf(
                     'Malformed namespaced template name "%s" (expecting "@namespace/template_name").',
                     $name
                 );
 
-                if (!$throw) {
+                if (! $throw) {
                     return $this->cache[$name] = null;
                 }
 
@@ -106,10 +103,10 @@ class StackLoader extends Loader\FilesystemLoader
             $name = substr($name, $pos + 1);
         }
 
-        if (!isset($this->paths[$namespace])) {
+        if (! isset($this->paths[$namespace])) {
             $this->errorCache[$name] = sprintf('There are no registered paths for namespace "%s".', $namespace);
 
-            if (!$throw) {
+            if (! $throw) {
                 return $this->cache[$name] = null;
             }
             throw new Error\LoaderError($this->errorCache[$name]);
@@ -130,7 +127,7 @@ class StackLoader extends Loader\FilesystemLoader
             )
         );
 
-        if (!$throw) {
+        if (! $throw) {
             return $this->cache[$name] = null;
         }
 
@@ -138,7 +135,6 @@ class StackLoader extends Loader\FilesystemLoader
     }
 
     /**
-     * @param string $name
      * @throws Error\LoaderError
      */
     private function validateName(string $name): void
@@ -147,7 +143,7 @@ class StackLoader extends Loader\FilesystemLoader
             throw new Error\LoaderError('A template name cannot contain NUL bytes.');
         }
 
-        $name = ltrim($name, '/');
+        $name  = ltrim($name, '/');
         $parts = explode('/', $name);
         $level = 0;
         foreach ($parts as $part) {
@@ -167,5 +163,4 @@ class StackLoader extends Loader\FilesystemLoader
             }
         }
     }
-
 }

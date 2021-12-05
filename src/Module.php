@@ -1,27 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ZfcTwig;
 
 use InvalidArgumentException;
-use Twig\Environment;
 use Laminas\EventManager\EventInterface;
 use Laminas\ModuleManager\Feature\BootstrapListenerInterface;
 use Laminas\ModuleManager\Feature\ConfigProviderInterface;
-use function is_string;
+use Twig\Environment;
+
 use function is_object;
+use function is_string;
 
 class Module implements
     BootstrapListenerInterface,
     ConfigProviderInterface
 {
     /**
-     * @param EventInterface $e
-     * @throws InvalidArgumentException
+     * {@inheritDoc}
      */
-    public function onBootstrap(EventInterface $e): void
+    public function onBootstrap(EventInterface $event): void
     {
-        /** @var \Laminas\Mvc\MvcEvent $e*/
-        $application    = $e->getApplication();
+        $application    = $event->getApplication();
         $serviceManager = $application->getServiceManager();
         $environment    = $serviceManager->get(Environment::class);
 
@@ -39,7 +40,7 @@ class Module implements
                 } else {
                     $extension = new $extension();
                 }
-            } elseif (!is_object($extension)) {
+            } elseif (! is_object($extension)) {
                 throw new InvalidArgumentException('Extensions should be a string or object.');
             }
 
@@ -54,5 +55,4 @@ class Module implements
     {
         return include __DIR__ . '/../config/module.config.php';
     }
-
 }

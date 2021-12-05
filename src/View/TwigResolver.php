@@ -1,23 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ZfcTwig\View;
 
-use Twig\Environment;
-use Laminas\View\Resolver\ResolverInterface;
 use Laminas\View\Renderer\RendererInterface as Renderer;
+use Laminas\View\Resolver\ResolverInterface;
+use Twig\Environment;
 
 class TwigResolver implements ResolverInterface
 {
-    /**
-     * @var Environment
-     */
+    /** @var Environment */
     protected $environment;
 
-    /**
-     * Constructor.
-     *
-     * @param Environment $environment
-     */
     public function __construct(Environment $environment)
     {
         $this->environment = $environment;
@@ -26,9 +21,8 @@ class TwigResolver implements ResolverInterface
     /**
      * @inheritDoc
      */
-    public function resolve($name, Renderer $renderer = null)
+    public function resolve($name, ?Renderer $renderer = null)
     {
         return $this->environment->load($name);
     }
-
 }
