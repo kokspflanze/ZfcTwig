@@ -52,6 +52,13 @@
     "replace": {
         "zf-commons/zfc-twig": "self.version"
     },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
     "extra": {
         "laminas": {
             "module": "ZfcTwig"
