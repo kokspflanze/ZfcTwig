@@ -1,18 +1,16 @@
 {
     "name": "kokspflanze/zfc-twig",
-    "description": "Laminas/Zend Framework Module that provides a Twig rendering strategy and extensions to render actions or trigger events from your templates",
+    "description": "Laminas module that provides a Twig rendering strategy and extensions to render actions or trigger events from your templates",
     "type": "library",
     "keywords": [
         "twig",
         "twig2",
         "twig3",
         "module",
-        "laminas",
-        "zf",
-        "zf3"
+        "laminas"
     ],
     "license": "BSD-3-Clause",
-    "homepage": "https://github.com/kokspflanze/ZfcTwig/",
+    "homepage": "https://github.com/saeven/ZfcTwig/",
     "authors": [
         {
             "name": "Kyle Spraggs",
@@ -26,7 +24,7 @@
         }
     ],
     "require": {
-        "php": "^7.3 || ~8.0.0 || ~8.1.0 || ~8.2.0",
+        "php": "^7.3 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0",
         "twig/twig": "^3.3.4",
         "laminas/laminas-mvc": "^3.0",
         "laminas/laminas-view": "^2.7",
