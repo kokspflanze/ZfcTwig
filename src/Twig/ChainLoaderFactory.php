@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ZfcTwig\Twig;
 
-use Interop\Container\ContainerInterface;
 use InvalidArgumentException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
 use Twig\Loader;
 use ZfcTwig\ModuleOptions;
 

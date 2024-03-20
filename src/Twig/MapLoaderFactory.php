@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ZfcTwig\Twig;
 
-use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\View\Resolver\TemplateMapResolver;
+use Psr\Container\ContainerInterface;
 use Twig\Error\LoaderError;
 use ZfcTwig\ModuleOptions;
 

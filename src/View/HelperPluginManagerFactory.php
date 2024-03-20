@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ZfcTwig\View;
 
-use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\ConfigInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\View\Exception;
+use Psr\Container\ContainerInterface;
 use ZfcTwig\ModuleOptions;
 
 use function class_exists;
