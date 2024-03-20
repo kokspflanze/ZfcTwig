@@ -91,7 +91,7 @@ function.
 {% set url = ( url('my/custom/route') ) %}
 ```
 
-# Examples
+## Examples
 
 Example .twig files for the skeleton application can be found in the [examples](https://github.com/kokspflanze/ZfcTwig/tree/master/examples)
 folder.
