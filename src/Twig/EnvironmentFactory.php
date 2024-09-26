@@ -45,11 +45,7 @@ class EnvironmentFactory implements FactoryInterface
                     if ($helperPluginManager->has($name)) {
                         return new TwigFunction(
                             $name,
-                            sprintf(
-                                '$this->env->getExtension("%s")->getRenderer()->plugin("%s")->__invoke',
-                                Extension::class,
-                                $name
-                            ),
+                            [$helperPluginManager->get($name), '__invoke'],
                             ['is_safe' => ['all']]
                         );
                     }
