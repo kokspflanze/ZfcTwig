@@ -7,7 +7,9 @@ ZfcTwig is a module that integrates the [Twig](http://twig.sensiolabs.org) templ
 
 this is a fork of [ZF-Commons/ZfcTwig](https://github.com/ZF-Commons/ZfcTwig).
 I added ZF3 support, so the module works with Laminas / Zend Framework 2 and 3.
-If you found a bug, please report it, just pm me in [gitter](https://gitter.im/kokspflanze) or open a PullRequest.
+If you found a bug, please report it and ping me in the issue/PR.
+
+Laminas-MVC is in security-update, so the module will get no twig4 update or php85+ support.
 
 ## Installation
 
